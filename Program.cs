@@ -50,10 +50,29 @@ namespace SuppliesPriceLister
 
         private static void LoadMegaCorp(ref List<InputDetails> lstInputDetails)
         {
+            InputDetails inputLoop = new InputDetails();
             string megaCorpDetails = File.ReadAllText("C:\\Users\\micha\\OneDrive\\Documents\\Jobs_2021_2\\BuildXact\\Coding Test\\buildxact-supplies-price-lister-830fc692c659\\humphries.csv");
             //var lstMegaCorp = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Partners>>(megaCorpDetails);
             List<Partners> lstMegaCorpDetails = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Partners>>(megaCorpDetails);
+            foreach (Partners partner in lstMegaCorpDetails)
+            {
+                Supplies[] suppliesLoop = partner.suppliesDetails;
+                int iCount = suppliesLoop.Length;
+                if (iCount > -1)
+                {
+                    for (int iLoop = 0; iLoop < iCount; iCount++)
+                    {
+                        Supplies suppLoop = suppliesLoop[iLoop];
+                        inputLoop.ProviderId = suppLoop.providerId;
+                        inputLoop.Description = suppLoop.description;
+                        int iPrice = suppLoop.priceInCents;
+                        decimal dPrice = iPrice / 100;
+                        inputLoop.Price = dPrice;
 
+                        lstInputDetails.Add(inputLoop);
+                    }
+                }
+            }
         }
 
         protected class InputDetails
@@ -70,7 +89,7 @@ namespace SuppliesPriceLister
             public string name { get; set; }
             public string partnerType { get; set; }
             public string partnerAddress { get; set; }
-            public Supplies suppliesDetails { get; set; }
+            public Supplies[] suppliesDetails { get; set; }
         }
 
         protected class Supplies
@@ -81,6 +100,8 @@ namespace SuppliesPriceLister
             public int priceInCents { get; set; }
             public string providerId { get; set; }
             public string materialType { get; set; }
+
+
         }
     }
 }
