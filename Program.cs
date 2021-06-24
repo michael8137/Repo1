@@ -15,17 +15,19 @@ namespace SuppliesPriceLister
         private static void GatherInputs()
         {
             List<InputDetails> lstInputDetails = new List<InputDetails>();
+
             LoadHumphries(ref lstInputDetails);
+
 
         }
 
         private static void LoadHumphries(ref List<InputDetails> lstInputDetails)
         {
-            string[] humphriesFileDetails = File.ReadAllLines("C:\\Users\\micha\\OneDrive\\Documents\\Jobs_2021_2\\BuildXact\\Coding Test\\buildxact-supplies-price-lister-830fc692c659");
+            string[] humphriesFileDetails = File.ReadAllLines("C:\\Users\\micha\\OneDrive\\Documents\\Jobs_2021_2\\BuildXact\\Coding Test\\buildxact-supplies-price-lister-830fc692c659\\humphries.csv");
             int lineCount = humphriesFileDetails.Length;
-            
+
             if (lineCount > -1)
-            { 
+            {
                 for (int iLoop = 1; iLoop < lineCount; iLoop++)
                 {
                     InputDetails inputLoop = new InputDetails();
@@ -43,40 +45,42 @@ namespace SuppliesPriceLister
 
                     lstInputDetails.Add(inputLoop);
                 }
-            } 
+            }
+        }
+
+        private static void LoadMegaCorp(ref List<InputDetails> lstInputDetails)
+        {
+            string megaCorpDetails = File.ReadAllText("C:\\Users\\micha\\OneDrive\\Documents\\Jobs_2021_2\\BuildXact\\Coding Test\\buildxact-supplies-price-lister-830fc692c659\\humphries.csv");
+            //var lstMegaCorp = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Partners>>(megaCorpDetails);
+            List<Partners> lstMegaCorpDetails = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Partners>>(megaCorpDetails);
+
         }
 
         protected class InputDetails
         {
-            /*private string _providerId = string.Empty;
-            private string _description = string.Empty;
-            private decimal _price = 0M;*/
 
-           /* private string ProviderId
-            {
-                get
-                {
-                    return _providerId;
-                }
-                set
-                {
-                    _providerId = value;
-                }
-            }
-
-            private decimal Price
-            {
-                get
-                {
-                    return _price;
-                }
-                set
-                {
-                    _price = value;
-                }
-            }*/
+            public string ProviderId { get; set; }
+            public string Description { get; set; }
+            public decimal Price { get; set; }
+           
         }
 
+        protected class Partners 
+        {
+            public string name { get; set; }
+            public string partnerType { get; set; }
+            public string partnerAddress { get; set; }
+            public Supplies suppliesDetails { get; set; }
+        }
 
+        protected class Supplies
+        {
+            public int id { get; set; }
+            public string description { get; set; }
+            public string uom { get; set; }
+            public int priceInCents { get; set; }
+            public string providerId { get; set; }
+            public string materialType { get; set; }
+        }
     }
 }
