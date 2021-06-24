@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace SuppliesPriceLister
 {
@@ -9,16 +10,38 @@ namespace SuppliesPriceLister
         static void Main(string[] args)
         {
             // Your solution begins here
-            GatherInputs();
-        }
-
-        private static void GatherInputs()
-        {
             List<InputDetails> lstInputDetails = new List<InputDetails>();
 
+            GatherInputs(ref lstInputDetails);
+            WriteInputs(lstInputDetails);
+        }
+
+        private static void WriteInputs(List<InputDetails> lstInputDetails)
+        {
+            int iCount = lstInputDetails.Count;
+
+            for (int iLoop = 0; iLoop < iCount; iLoop++)
+            {
+                InputDetails inputLoop = lstInputDetails[iLoop];
+                StringBuilder sbDetails = new StringBuilder();
+                string details = string.Empty;
+
+                sbDetails.Append(inputLoop.ProviderId);
+                sbDetails.Append(", ");
+                sbDetails.Append(inputLoop.Description);
+                sbDetails.Append(", $");
+                sbDetails.Append(inputLoop.Price);
+
+                details = sbDetails.ToString();
+                Console.WriteLine(details);
+            }
+
+        }
+
+        private static void GatherInputs(ref List<InputDetails> lstInputDetails)
+        {
             LoadHumphries(ref lstInputDetails);
-
-
+            LoadMegaCorp(ref lstInputDetails);
         }
 
         private static void LoadHumphries(ref List<InputDetails> lstInputDetails)
@@ -51,8 +74,7 @@ namespace SuppliesPriceLister
         private static void LoadMegaCorp(ref List<InputDetails> lstInputDetails)
         {
             InputDetails inputLoop = new InputDetails();
-            string megaCorpDetails = File.ReadAllText("C:\\Users\\micha\\OneDrive\\Documents\\Jobs_2021_2\\BuildXact\\Coding Test\\buildxact-supplies-price-lister-830fc692c659\\humphries.csv");
-            //var lstMegaCorp = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Partners>>(megaCorpDetails);
+            string megaCorpDetails = File.ReadAllText("C:\\Users\\micha\\OneDrive\\Documents\\Jobs_2021_2\\BuildXact\\Coding Test\\buildxact-supplies-price-lister-830fc692c659\\megacorp.json");
             List<Partners> lstMegaCorpDetails = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Partners>>(megaCorpDetails);
             foreach (Partners partner in lstMegaCorpDetails)
             {
