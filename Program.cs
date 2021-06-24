@@ -58,7 +58,7 @@ namespace SuppliesPriceLister
                     string[] humphriesLineParsed = humphriesLine.Split();
                     string providerId = humphriesLineParsed[0];
                     string description = humphriesLineParsed[1];
-                    string sPrice = humphriesLineParsed[3];
+                    string sPrice = humphriesLineParsed[2];
                     decimal dPrice = 0M;
                     bool bTestConvert = decimal.TryParse(sPrice, out dPrice);
 
