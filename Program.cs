@@ -62,22 +62,6 @@ namespace SuppliesPriceLister
                 {
                     _providerId = value;
                 }
-            }*/
-
-            public string ProviderId { get; set; }
-            public string Description { get; set; }
-            public decimal Price { get; set; }
-
-           /* private string Description
-            {
-                get
-                {
-                    return _description;
-                }
-                set
-                {
-                    _description = value;
-                }
             }
 
             private decimal Price
